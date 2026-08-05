@@ -6,23 +6,23 @@
 //
 import Foundation
 
-struct PossibleCauses: Identifiable {
+struct PossibleCauses: Hashable {
     let id: String
     var ingredientId: String
-    var symptompId: String
+    var symtompId: String
     var status: String // unchecked | cause | non_cause
     var lastUpdated: Date
 
     init(
         id: String,
         ingredientId: String,
-        symptompId: String,
+        symtompId: String,
         status: String = "unchecked",
         lastUpdated: Date = Date()
     ) {
         self.id = id
         self.ingredientId = ingredientId
-        self.symptompId = symptompId
+        self.symtompId = symtompId
         self.status = status
         self.lastUpdated = lastUpdated
     }
