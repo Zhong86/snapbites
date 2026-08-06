@@ -6,20 +6,22 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Symtomp: Identifiable {
-    let id: String
+@Model
+final class Symtomp: Identifiable {
     var name: String
     var imageName: String
     var lastChecked: Date
+    
+    @Relationship(deleteRule: .cascade, inverse: \PossibleCauses.symptom)
+        var possibleCauses: [PossibleCauses] = []
 
     init(
-        id: String,
         name: String,
         imageName: String,
         lastChecked: Date = Date()
     ) {
-        self.id = id
         self.name = name
         self.imageName = imageName
         self.lastChecked = lastChecked

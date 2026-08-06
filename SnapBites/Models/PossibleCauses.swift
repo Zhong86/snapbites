@@ -5,24 +5,23 @@
 //  Created by Mac on 04/08/26.
 //
 import Foundation
+import SwiftData
 
-struct PossibleCauses: Identifiable {
-    let id: String
-    var ingredientId: String
-    var symptompId: String
+@Model
+final class PossibleCauses: Identifiable {
+    var ingredient: Ingredient?
+    var symptom: Symtomp?
     var status: String // unchecked | cause | non_cause
     var lastUpdated: Date
 
     init(
-        id: String,
-        ingredientId: String,
-        symptompId: String,
+        ingredient: Ingredient,
+        symptom: Symtomp,
         status: String = "unchecked",
         lastUpdated: Date = Date()
     ) {
-        self.id = id
-        self.ingredientId = ingredientId
-        self.symptompId = symptompId
+        self.ingredient = ingredient
+        self.symptom = symptom
         self.status = status
         self.lastUpdated = lastUpdated
     }

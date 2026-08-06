@@ -1,6 +1,8 @@
 import SwiftUI
+import SwiftData
 
 struct LogView: View {
+    @Environment(\.modelContext) private var modelContext
     var body: some View {
         VStack {
             HStack {

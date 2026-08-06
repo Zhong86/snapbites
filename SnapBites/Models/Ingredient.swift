@@ -5,20 +5,22 @@
 //  Created by Mac on 04/08/26.
 //
 import Foundation
+import SwiftData
 
-struct Ingredient: Identifiable {
-    let id: String
+@Model
+final class Ingredient {
     var name: String
     var hasChecked: Bool
     var timeUpdated: Date
+    
+    @Relationship(deleteRule: .cascade, inverse: \PossibleCauses.ingredient)
+        var possibleCauses: [PossibleCauses] = []
 
     init(
-        id: String,
         name: String,
         hasChecked: Bool = false,
         timeUpdated: Date = Date()
     ) {
-        self.id = id
         self.name = name
         self.hasChecked = hasChecked
         self.timeUpdated = timeUpdated
