@@ -27,7 +27,7 @@ struct SummaryView: View {
                 }
             }
             .sheet(isPresented: $showAddSummary) {
-                AddSummaryView()
+                CreateLogView()
             }
         }
     }

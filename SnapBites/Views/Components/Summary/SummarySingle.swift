@@ -26,7 +26,7 @@ struct SummarySingle: View {
                     VStack(alignment: .leading, spacing: 4) {
                         
                         HStack{
-                            Text(data.ingredientId)
+                            Text(data.ingredient?.name ?? "unknown ingredient")
                                 .font(.headline)
                                 .bold()
                                 .lineLimit(1)
@@ -34,7 +34,7 @@ struct SummarySingle: View {
                         }
                         
                         HStack{
-                            Text(data.symtompId)
+                            Text(data.symptom?.name ?? "unknown symtomp")
                                 .padding(4)
                                 .font(.caption)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))

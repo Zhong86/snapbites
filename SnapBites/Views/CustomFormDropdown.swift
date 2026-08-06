@@ -42,7 +42,7 @@ struct CustomFormDropdown: View {
                         .stroke(Color(.systemGray4), lineWidth: 1)
                 )
             }
-            
+            Spacer()
             // MARK: - Expanded Options Menu
             if isExpanded {
                 VStack(alignment: .leading, spacing: 0) {
@@ -71,7 +71,9 @@ struct CustomFormDropdown: View {
                 )
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
+            Spacer()
             
+            Spacer()
             // MARK: - Dynamic Form Fields Block
             if !isExpanded, let selection = selectedOption {
                 VStack(alignment: .leading, spacing: 12) {
@@ -96,7 +98,7 @@ struct CustomFormDropdown: View {
                         DatePicker("", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
                             .labelsHidden()
                         
-                        Spacer()
+                
                         
                         Button("Save") {
                             // Handle your form submission here
@@ -111,10 +113,12 @@ struct CustomFormDropdown: View {
                 }
                 .transition(.opacity)
             }
+            Spacer()
         }
         .padding()
         .background(Color(.systemGray6).opacity(0.4))
         .cornerRadius(12)
+        
     }
     
     // Reusable custom layout helper for text fields
@@ -133,4 +137,9 @@ struct CustomFormDropdown: View {
                 )
         }
     }
+}
+
+
+#Preview {
+    CustomFormDropdown()
 }

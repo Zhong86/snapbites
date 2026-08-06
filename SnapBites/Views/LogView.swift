@@ -5,14 +5,16 @@ import Observation
 
 struct LogView: View {
     @Environment(\.modelContext) private var modelContext
+    @State private var showModal = false
     var body: some View {
         VStack{
             Button(action: {
-                print("Ikon ditekan!")
+                showModal.toggle()
             }) {
                 HStack {
                     Spacer ()
                     Image(systemName: "plus.circle")
+                    
                         .resizable()
                         .scaledToFit()
                         .foregroundStyle(Color.blue)
@@ -23,6 +25,9 @@ struct LogView: View {
                         .cornerRadius(50)
                     
                 }
+            }
+            .sheet(isPresented: $showModal) {
+                CreateLogView()
             }
             Spacer ()
         }
