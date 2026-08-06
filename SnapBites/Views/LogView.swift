@@ -5,55 +5,34 @@ import Observation
 
 struct LogView: View {
     @Environment(\.modelContext) private var modelContext
+    @State private var showModal = false
     var body: some View {
-        ZStack {
-            VStack {
+        VStack{
+            Button(action: {
+                showModal.toggle()
+            }) {
                 HStack {
-                    HStack {
-                        Spacer()
-                    }
-                }.padding(12)
+                    Spacer ()
+                    Image(systemName: "plus.circle")
                     
-                
-                VStack{
-                    HStack(spacing: 10){
-                        Spacer() .frame(width: 1)
-                        HStack{
-                            Text("1")
-                            Image(systemName: "flame.fill").foregroundColor(.red)
-                        }
-                        Spacer() .frame(width: 15)
-                        
-                        Text("Sun")
-                        Text("Mon")
-                        Text("Tue")
-                        Text("Wed")
-                        Text("Thu")
-                        Text("Fri")
-                        Text("Sat")
-                        Spacer() .frame(width: 15)
-                    }
-                    HStack (spacing:18){
-                        Text("weeks")
-                            .padding(.trailing)
-                        HStack( spacing: 18 ){
-                            Text("29")
-                            Text("30")
-                            Text("31")
-                            Text("01")
-                            Text("02")
-                            Text("03")
-                            Text("04")
-                                .padding(.trailing, 26)
-                        }
-                    }
-                } .background(.white) .clipShape(Capsule()) .padding(.top,20) .shadow(color: .black, radius: 1, y:5)
-                Spacer()
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(Color.blue)
+                        .frame(width: 40, height: 50)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.white)
+                        .cornerRadius(50)
+                    
                 }
-        } .background(.green)
+            }
+            .sheet(isPresented: $showModal) {
+                CreateLogView()
+            }
+            Spacer ()
         }
     }
-
+}
 #Preview {
     LogView()
 }

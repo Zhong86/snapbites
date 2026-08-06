@@ -27,11 +27,12 @@ struct SummaryView: View {
                 }
             }
             .sheet(isPresented: $showAddSummary) {
-                CustomFormDropdown()
+                CreateLogView()
             }
         }
     }
 }
+
 
 #Preview {
     SummaryView()
