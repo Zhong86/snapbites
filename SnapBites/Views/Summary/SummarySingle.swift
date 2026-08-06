@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct SummarySingle: View {
     @Bindable var ingredient: Ingredient
@@ -20,9 +21,7 @@ struct SummarySingle: View {
                         )
                         .shadow(radius: 5)
                     
-                    // Uses alignment to push text left, replacing the spaces hack
                     VStack(alignment: .leading, spacing: 4) {
-                        
                         HStack{
                             Text(ingredient.name)
                                 .font(.headline)
@@ -32,15 +31,12 @@ struct SummarySingle: View {
                         }
                         
                         HStack{
-                            Text("\(ingredient.possibleCauses.count) symptom(s)")
-                                .padding(4)
-                                .font(.caption)
-                                .clipShape(RoundedRectangle(cornerRadius: 50))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(.black, lineWidth: 1)
-                                )
-                                .shadow(radius: 5)
+                            ForEach(ingredient.possibleCauses.filter{
+                                $0.status == "unchecked"
+                            }.compactMap(\.symptom), id: \.persistentModelID) { symptom in
+                                Pill(text: symptom.name)
+                            }
+                            
                         }
                     }
                     .padding(.leading, 8)

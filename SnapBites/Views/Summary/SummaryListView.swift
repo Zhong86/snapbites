@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SummaryListView: View {
-    @State var ingredients: [Ingredient]
+    let ingredients: [Ingredient]
     @State private var selectedIngredient: Ingredient?
 
     var body: some View {
