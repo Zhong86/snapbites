@@ -8,6 +8,8 @@ import SwiftUI
 
 struct Pill: View {
     @State var text: String
+    var borderColor: Color = .black
+    
     var body: some View {
         Text(text)
             .padding(4)
@@ -15,7 +17,7 @@ struct Pill: View {
             .clipShape(RoundedRectangle(cornerRadius: 50))
             .overlay(
                 RoundedRectangle(cornerRadius: 100)
-                    .stroke(.black, lineWidth: 1)
+                    .stroke(borderColor, lineWidth: 1)
             )
             .shadow(radius: 5)
     }

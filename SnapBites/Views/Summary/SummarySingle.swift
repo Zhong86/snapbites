@@ -31,12 +31,22 @@ struct SummarySingle: View {
                         }
                         
                         HStack{
-                            ForEach(ingredient.possibleCauses.filter{
-                                $0.status == "unchecked"
-                            }.compactMap(\.symptom), id: \.persistentModelID) { symptom in
-                                Pill(text: symptom.name)
+                            let activeCauses = ingredient.possibleCauses.filter {
+                                $0.status != "non_cause"
                             }
-                            
+ 
+                            if activeCauses.isEmpty && !ingredient.possibleCauses.isEmpty {
+                                SafePill()
+                            } else {
+                                ForEach(activeCauses, id: \.persistentModelID) { cause in
+                                    if let symptom = cause.symptom {
+                                        Pill(
+                                            text: symptom.name,
+                                            borderColor: cause.status == "cause" ? .red : .black
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                     .padding(.leading, 8)
