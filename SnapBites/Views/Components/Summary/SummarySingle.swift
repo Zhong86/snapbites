@@ -39,13 +39,7 @@ struct SummarySingle: View {
                                     .stroke(.black, lineWidth: 1)
                             )
                             .shadow(radius: 5)
-                        
-                        
-            
                     }
-                    
-                    
-                    
                 }
                 .padding(.leading, 8)
                 

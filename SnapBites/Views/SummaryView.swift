@@ -2,20 +2,33 @@ import SwiftUI
 import SwiftData
 
 struct SummaryView: View {
-    @Query var symptoms: [PossibleCauses]
+    @Query var causes: [PossibleCauses]
+    @State private var showAddSummary = false
+    
     var body: some View {
         NavigationStack {
-            List(symptoms, id: \.self) {symptom in
-                NavigationLink{
+            List(causes) { cause in
+                NavigationLink {
                     Text("test")
                 } label: {
-                    SummarySingle(data: symptom)
+                    SummarySingle(data: cause)
                 }
                 .navigationLinkIndicatorVisibility(.hidden)
-                    .listRowSeparator(.hidden)
-                
-            }.listStyle(.plain)
-                
+                .listRowSeparator(.hidden)
+            }
+            .listStyle(.plain)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        showAddSummary = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showAddSummary) {
+                AddSummaryView()
+            }
         }
     }
 }
