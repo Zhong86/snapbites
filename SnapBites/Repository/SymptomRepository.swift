@@ -40,11 +40,10 @@ final class SymptomRepository {
     }
     
     // MARK: - Update
-    func update(_ symptom: Symtomp, name: String? = nil, imageName: String? = nil) {
-        if let name { symptom.name = name }
-        if let imageName { symptom.imageName = imageName }
-        symptom.lastChecked = Date()
+    func updateDate(_ symptom: Symtomp, date: Date) -> Symtomp {
+        symptom.lastChecked = date
         save()
+        return symptom
     }
     
     func touch(_ symptom: Symtomp) {

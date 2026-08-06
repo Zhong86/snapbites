@@ -76,7 +76,8 @@ struct CreateJournalView: View {
 
         case .symptom:
             guard let selectedSymptom else { return }
-            
+            let updatedSymptom: Symtomp = SymptomRepository(context: modelContext).updateDate(selectedSymptom, date: entryDate)
+            SymptomCheckService().newSymptom(symptom: updatedSymptom, modelContext: modelContext)
         }
 
         dismiss()

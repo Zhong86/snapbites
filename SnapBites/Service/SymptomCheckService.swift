@@ -9,6 +9,19 @@ import SwiftData
 
 class SymptomCheckService {
     
+    func newSymptom(symptom: Symtomp, modelContext: ModelContext) {
+        var pc: (Bool, [Ingredient]) = (false, [])
+        do {
+            pc = try getPossibleCauses(symptom: <#T##Symtomp#>, modelContext: <#T##ModelContext#>)
+            // check if true, if yes return the cause and alert
+            
+            // if false then create possiblecause for each ingredient
+        } catch {
+            print("Fail to find possible causes.")
+        }
+        
+    }
+    
     func getPossibleCauses(symptom: Symtomp, modelContext: ModelContext) throws -> (Bool, [Ingredient]) {
         
         var ingredients = Array<Ingredient>()
