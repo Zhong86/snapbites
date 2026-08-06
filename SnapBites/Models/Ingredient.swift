@@ -25,4 +25,6 @@ final class Ingredient {
         self.hasChecked = hasChecked
         self.timeUpdated = timeUpdated
     }
+    
+    public 
 }
