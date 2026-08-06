@@ -9,25 +9,34 @@ final class IngredientRepository {
     }
     
     // MARK: - Create
-    @discardableResult
-    func create(name: String, hasChecked: Bool = false) -> Ingredient {
-        let ingredient = Ingredient(name: name, hasChecked: hasChecked)
+    func create(name: String, timeUpdated: Date = Date.now) -> Ingredient {
+        let ingredient = Ingredient(name: name, hasChecked: false, timeUpdated: timeUpdated)
         context.insert(ingredient)
         save()
         return ingredient
     }
     
     // MARK: - Read
-    func fetchAll(sortBy: SortDescriptor<Ingredient> = SortDescriptor(\.name)) -> [Ingredient] {
-        let descriptor = FetchDescriptor<Ingredient>(sortBy: [sortBy])
+    func fetchAll(on date: Date, calendar: Calendar = .current) -> [Ingredient] {
+        let start = calendar.startOfDay(for: date)
+        guard let end = calendar.date(byAdding: .day, value: 1, to: start) else { return [] }
+ 
+        let predicate = #Predicate<Ingredient> { ingredient in
+            ingredient.timeUpdated >= start && ingredient.timeUpdated < end
+        }
+        let descriptor = FetchDescriptor<Ingredient>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.timeUpdated)]
+        )
         return (try? context.fetch(descriptor)) ?? []
     }
     
-    func fetch(byName name: String) -> Ingredient? {
-        let predicate = #Predicate<Ingredient> { $0.name == name }
-        var descriptor = FetchDescriptor<Ingredient>(predicate: predicate)
-        descriptor.fetchLimit = 1
-        return (try? context.fetch(descriptor))?.first
+    func fetchWithPossibleCauses() -> [Ingredient] {
+        let predicate = #Predicate<Ingredient> { ingredient in
+            !ingredient.possibleCauses.isEmpty
+        }
+        let descriptor = FetchDescriptor<Ingredient>(predicate: predicate)
+        return (try? context.fetch(descriptor)) ?? []
     }
     
     // MARK: - Update
@@ -47,12 +56,6 @@ final class IngredientRepository {
     // MARK: - Delete
     func delete(_ ingredient: Ingredient) {
         context.delete(ingredient)
-        save()
-    }
-    
-    func deleteAll() {
-        let all = fetchAll()
-        all.forEach { context.delete($0) }
         save()
     }
     

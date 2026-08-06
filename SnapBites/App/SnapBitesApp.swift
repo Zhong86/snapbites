@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SnapBitesApp: App {
@@ -13,5 +14,6 @@ struct SnapBitesApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [Ingredient.self, Symtomp.self, PossibleCauses.self])
     }
 }

@@ -1,7 +1,7 @@
 import SwiftData
 import Foundation
 
-final class SymtompRepository {
+final class SymptomRepository {
     private let context: ModelContext
     
     init(context: ModelContext) {
@@ -9,7 +9,6 @@ final class SymtompRepository {
     }
     
     // MARK: - Create
-    @discardableResult
     func create(name: String, imageName: String) -> Symtomp {
         let symptom = Symtomp(name: name, imageName: imageName)
         context.insert(symptom)
@@ -18,10 +17,20 @@ final class SymtompRepository {
     }
     
     // MARK: - Read
-    func fetchAll(sortBy: SortDescriptor<Symtomp> = SortDescriptor(\.name)) -> [Symtomp] {
-        let descriptor = FetchDescriptor<Symtomp>(sortBy: [sortBy])
+    func fetchAll(on date: Date, calendar: Calendar = .current) -> [Symtomp] {
+        let start = calendar.startOfDay(for: date)
+        guard let end = calendar.date(byAdding: .day, value: 1, to: start) else { return [] }
+ 
+        let predicate = #Predicate<Symtomp> { symptom in
+            symptom.lastChecked >= start && symptom.lastChecked < end
+        }
+        let descriptor = FetchDescriptor<Symtomp>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.lastChecked)]
+        )
         return (try? context.fetch(descriptor)) ?? []
     }
+
     
     func fetch(byName name: String) -> Symtomp? {
         let predicate = #Predicate<Symtomp> { $0.name == name }
@@ -31,11 +40,10 @@ final class SymtompRepository {
     }
     
     // MARK: - Update
-    func update(_ symptom: Symtomp, name: String? = nil, imageName: String? = nil) {
-        if let name { symptom.name = name }
-        if let imageName { symptom.imageName = imageName }
-        symptom.lastChecked = Date()
+    func updateDate(_ symptom: Symtomp, date: Date) -> Symtomp {
+        symptom.lastChecked = date
         save()
+        return symptom
     }
     
     func touch(_ symptom: Symtomp) {
@@ -49,11 +57,6 @@ final class SymtompRepository {
         save()
     }
     
-    func deleteAll() {
-        fetchAll().forEach { context.delete($0) }
-        save()
-    }
-    
     // MARK: - Helper
     private func save() {
         do {
@@ -62,10 +65,5 @@ final class SymtompRepository {
             print("Failed to save context: \(error)")
         }
     }
-}//
-//  SymptomRepository.swift
-//  SnapBites
-//
-//  Created by Mac on 06/08/26.
-//
+}
 

@@ -1,13 +1,22 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct SummaryView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var ingredients: [Ingredient] = []
+    @State private var showAddSummary = false
+    
     var body: some View {
-        VStack {
-            TabBar()
-        }
+        SummaryListView(ingredients: ingredients)
+            .task {
+                let repo = IngredientRepository(context: modelContext)
+                    
+                ingredients = repo.fetchWithPossibleCauses()
+                print("repo ingredients:", ingredients.map { ($0.name, $0.possibleCauses.count) })
+            }
     }
 }
+
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
@@ -43,6 +52,6 @@ struct ContentView: View {
     // Ingredient with NO possibleCauses at all -> should NOT show in Summary
     _ = ingredientRepo.create(name: "nasi")
     
-    return ContentView()
+    return SummaryView()
         .modelContainer(container)
 }
