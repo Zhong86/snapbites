@@ -1,57 +1,33 @@
 import SwiftUI
-import EventKit
-import Observation
 
 struct LogView: View {
+    // Tracks the selected date on the calendar matrix
+    @State private var selectedDate = Date()
+    
     var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    HStack {
-                        Spacer()
-                    }
-                }.padding(12)
-                    
-                
-                VStack{
-                    HStack(spacing: 10){
-                        Spacer() .frame(width: 1)
-                        HStack{
-                            Text("1")
-                            Image(systemName: "flame.fill").foregroundColor(.red)
-                        }
-                        Spacer() .frame(width: 15)
-                        
-                        Text("Sun")
-                        Text("Mon")
-                        Text("Tue")
-                        Text("Wed")
-                        Text("Thu")
-                        Text("Fri")
-                        Text("Sat")
-                        Spacer() .frame(width: 15)
-                    }
-                    HStack (spacing:18){
-                        Text("weeks")
-                            .padding(.trailing)
-                        HStack( spacing: 18 ){
-                            Text("29")
-                            Text("30")
-                            Text("31")
-                            Text("01")
-                            Text("02")
-                            Text("03")
-                            Text("04")
-                                .padding(.trailing, 26)
-                        }
-                    }
-                } .background(.white) .clipShape(Capsule()) .padding(.top,20) .shadow(color: .black, radius: 1, y:5)
+        VStack(spacing: 16) {
+            // MARK: - Native Calendar Header Title
+            HStack {
+                Text("Calendar")
+                    .font(.system(size: 24, weight: .bold))
                 Spacer()
-                }
-        } .background(.green)
+            }
+            .padding(.horizontal)
+            
+            // MARK: - Native Month Grid Engine
+            //  CORRECT
+            DatePicker(
+                "Select Date",
+                selection: $selectedDate,
+                displayedComponents: [.date]
+            ) // <- Parenthesis must close here!
+            .datePickerStyle(.graphical)
+            .accentColor(.blue)
+            .padding()
+            .background(Color(.systemBackground))
+            .cornerRadius(12)
+            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
         }
     }
-
-#Preview {
-    LogView()
+    
 }
