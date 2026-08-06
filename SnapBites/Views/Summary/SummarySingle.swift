@@ -8,7 +8,7 @@ struct SummarySingle: View {
         ZStack {
             VStack {
                 HStack {
-                    Image(systemName: "bandage")
+                    Image(ingredient.possibleCauses.first?.symptom?.imageName ?? "")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50)
@@ -72,8 +72,4 @@ struct SummarySingle: View {
             
         }
     }
-}
-
-#Preview {
-    SummarySingle(ingredient: dummy)
 }

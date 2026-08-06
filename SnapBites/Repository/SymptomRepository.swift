@@ -17,10 +17,20 @@ final class SymptomRepository {
     }
     
     // MARK: - Read
-    func fetchAll(sortBy: SortDescriptor<Symtomp> = SortDescriptor(\.name)) -> [Symtomp] {
-        let descriptor = FetchDescriptor<Symtomp>(sortBy: [sortBy])
+    func fetchAll(on date: Date, calendar: Calendar = .current) -> [Symtomp] {
+        let start = calendar.startOfDay(for: date)
+        guard let end = calendar.date(byAdding: .day, value: 1, to: start) else { return [] }
+ 
+        let predicate = #Predicate<Symtomp> { symptom in
+            symptom.lastChecked >= start && symptom.lastChecked < end
+        }
+        let descriptor = FetchDescriptor<Symtomp>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.lastChecked)]
+        )
         return (try? context.fetch(descriptor)) ?? []
     }
+
     
     func fetch(byName name: String) -> Symtomp? {
         let predicate = #Predicate<Symtomp> { $0.name == name }
@@ -45,11 +55,6 @@ final class SymptomRepository {
     // MARK: - Delete
     func delete(_ symptom: Symtomp) {
         context.delete(symptom)
-        save()
-    }
-    
-    func deleteAll() {
-        fetchAll().forEach { context.delete($0) }
         save()
     }
     
