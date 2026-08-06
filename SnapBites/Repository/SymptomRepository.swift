@@ -1,7 +1,7 @@
 import SwiftData
 import Foundation
 
-final class SymtompRepository {
+final class SymptomRepository {
     private let context: ModelContext
     
     init(context: ModelContext) {
@@ -9,7 +9,6 @@ final class SymtompRepository {
     }
     
     // MARK: - Create
-    @discardableResult
     func create(name: String, imageName: String) -> Symtomp {
         let symptom = Symtomp(name: name, imageName: imageName)
         context.insert(symptom)
@@ -62,10 +61,5 @@ final class SymtompRepository {
             print("Failed to save context: \(error)")
         }
     }
-}//
-//  SymptomRepository.swift
-//  SnapBites
-//
-//  Created by Mac on 06/08/26.
-//
+}
 

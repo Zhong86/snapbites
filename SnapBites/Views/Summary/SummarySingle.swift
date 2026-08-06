@@ -1,12 +1,10 @@
 import SwiftUI
 
 struct SummarySingle: View {
-    var data: PossibleCauses
+    @Bindable var ingredient: Ingredient
     
     var body: some View {
         ZStack {
-            
-            
             VStack {
                 HStack {
                     Image(systemName: "bandage")
@@ -26,7 +24,7 @@ struct SummarySingle: View {
                     VStack(alignment: .leading, spacing: 4) {
                         
                         HStack{
-                            Text(data.ingredient?.name ?? "unknown ingredient")
+                            Text(ingredient.name)
                                 .font(.headline)
                                 .bold()
                                 .lineLimit(1)
@@ -34,7 +32,7 @@ struct SummarySingle: View {
                         }
                         
                         HStack{
-                            Text(data.symptom?.name ?? "unknown symtomp")
+                            Text("\(ingredient.possibleCauses.count) symptom(s)")
                                 .padding(4)
                                 .font(.caption)
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
@@ -43,28 +41,17 @@ struct SummarySingle: View {
                                         .stroke(.black, lineWidth: 1)
                                 )
                                 .shadow(radius: 5)
-                            
-                            
-                            
-                            
                         }
-                        
-                        
-                        
                     }
                     .padding(.leading, 8)
                     
                     Spacer()
                     VStack{
-                        Text(data.lastUpdated.formatted(.dateTime.month(.wide).day()))
+                        Text(ingredient.timeUpdated.formatted(.dateTime.month(.wide).day()))
                             .foregroundStyle(Color.blue)
-                        Text(data.lastUpdated.formatted(date: .omitted, time: .shortened))
+                        Text(ingredient.timeUpdated.formatted(date: .omitted, time: .shortened))
                             .foregroundStyle(Color.blue)
                         Image(systemName: "chevron.right").fontWeight(.bold)
-                            
-                        
-                        
-                        
                     }
                 }
                 .padding()
@@ -73,11 +60,8 @@ struct SummarySingle: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 30)
                         .stroke(.black, lineWidth: 1)
-                    
-                    
                 )
                 .shadow(radius: 5)
-                
             }
             
         }
@@ -85,6 +69,5 @@ struct SummarySingle: View {
 }
 
 #Preview {
-    NavigationStack {
-    }
+    SummarySingle(ingredient: dummy)
 }

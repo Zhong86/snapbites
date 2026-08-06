@@ -9,7 +9,6 @@ final class IngredientRepository {
     }
     
     // MARK: - Create
-    @discardableResult
     func create(name: String, hasChecked: Bool = false) -> Ingredient {
         let ingredient = Ingredient(name: name, hasChecked: hasChecked)
         context.insert(ingredient)
