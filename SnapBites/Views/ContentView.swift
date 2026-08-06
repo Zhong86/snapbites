@@ -1,5 +1,17 @@
 import SwiftUI
 import SwiftData
+<<<<<<< HEAD
+=======
+
+let dummy = Ingredient(name: "kacang", hasChecked: false)
+let dummy2 = Symtomp(name: "biduran", imageName: "biduran")
+let dummy3 = PossibleCauses(
+    ingredient: dummy,
+    symptom: dummy2,
+    status: "cause",
+    lastUpdated: .now
+)
+>>>>>>> ec447a198887c9e619f6dbb0e1b85bbab5c59caf
 
 struct ContentView: View {
     var body: some View {

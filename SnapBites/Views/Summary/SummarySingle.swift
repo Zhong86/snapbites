@@ -73,3 +73,10 @@ struct SummarySingle: View {
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+#Preview {
+    SummarySingle(ingredient: dummy)
+}
+>>>>>>> ec447a198887c9e619f6dbb0e1b85bbab5c59caf
