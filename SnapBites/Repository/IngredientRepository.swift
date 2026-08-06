@@ -16,7 +16,23 @@ final class IngredientRepository {
         return ingredient
     }
     
+    func createOrUpdate(name: String, timeUpdated: Date = Date.now) -> Ingredient {
+        if let existing = fetch(byName: name) {
+            existing.timeUpdated = timeUpdated
+            save()
+            return existing
+        }
+        return create(name: name, timeUpdated: timeUpdated)
+    }
+    
     // MARK: - Read
+    func fetch(byName name: String) -> Ingredient? {
+        let predicate = #Predicate<Ingredient> { $0.name == name }
+        var descriptor = FetchDescriptor<Ingredient>(predicate: predicate)
+        descriptor.fetchLimit = 1
+        return (try? context.fetch(descriptor))?.first
+    }
+
     func fetchAll(on date: Date, calendar: Calendar = .current) -> [Ingredient] {
         let start = calendar.startOfDay(for: date)
         guard let end = calendar.date(byAdding: .day, value: 1, to: start) else { return [] }

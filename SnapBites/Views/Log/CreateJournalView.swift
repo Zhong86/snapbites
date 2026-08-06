@@ -10,6 +10,9 @@ struct CreateJournalView: View {
     @State private var selectedSymptom: Symtomp?
     @State private var entryDate: Date = Date()
 
+    @State private var showCauseFoundAlert = false
+    @State private var foundCauseNames: [String] = []
+
     private var isSaveEnabled: Bool {
         switch entryType {
         case .ingredient:
@@ -61,6 +64,11 @@ struct CreateJournalView: View {
                         .disabled(!isSaveEnabled)
                 }
             }
+            .alert("Cause Found", isPresented: $showCauseFoundAlert) {
+                Button("OK") { dismiss() }
+            } message: {
+                Text("A likely cause was already identified: \(foundCauseNames.joined(separator: ", ")).")
+            }
         }
     }
 
@@ -71,16 +79,28 @@ struct CreateJournalView: View {
             for name in ingredientNames {
                 let trimmed = name.trimmingCharacters(in: .whitespaces)
                 guard !trimmed.isEmpty else { continue }
-                let ingredient = repository.create(name: trimmed, timeUpdated: entryDate)
+                // Existing ingredient of the same name just gets its timeUpdated bumped
+                // instead of creating a duplicate row.
+                _ = repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
             }
+            dismiss()
 
         case .symptom:
             guard let selectedSymptom else { return }
             let updatedSymptom: Symtomp = SymptomRepository(context: modelContext).updateDate(selectedSymptom, date: entryDate)
-            SymptomCheckService().newSymptom(symptom: updatedSymptom, modelContext: modelContext)
-        }
+            let (causeFound, causes) = SymptomCheckService().newSymptom(symptom: updatedSymptom, modelContext: modelContext)
 
-        dismiss()
+            if causeFound {
+                // A cause was already known — surface it via alert instead of
+                // creating new PossibleCauses, and dismiss once the user acknowledges.
+                foundCauseNames = causes.map(\.name)
+                showCauseFoundAlert = true
+            } else {
+                // PossibleCauses were just created (inside newSymptom) for each
+                // candidate ingredient — safe to close the sheet now.
+                dismiss()
+            }
+        }
     }
 }
 
