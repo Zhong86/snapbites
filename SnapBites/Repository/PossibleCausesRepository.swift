@@ -9,7 +9,6 @@ final class PossibleCausesRepository {
     }
     
     // MARK: - Create
-    @discardableResult
     func create(
         ingredient: Ingredient? = nil,
         symptom: Symtomp? = nil,

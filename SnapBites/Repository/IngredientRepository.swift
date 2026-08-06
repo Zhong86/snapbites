@@ -9,7 +9,6 @@ final class IngredientRepository {
     }
     
     // MARK: - Create
-    @discardableResult
     func create(name: String, hasChecked: Bool = false) -> Ingredient {
         let ingredient = Ingredient(name: name, hasChecked: hasChecked)
         context.insert(ingredient)
@@ -23,11 +22,12 @@ final class IngredientRepository {
         return (try? context.fetch(descriptor)) ?? []
     }
     
-    func fetch(byName name: String) -> Ingredient? {
-        let predicate = #Predicate<Ingredient> { $0.name == name }
-        var descriptor = FetchDescriptor<Ingredient>(predicate: predicate)
-        descriptor.fetchLimit = 1
-        return (try? context.fetch(descriptor))?.first
+    func fetchWithPossibleCauses() -> [Ingredient] {
+        let predicate = #Predicate<Ingredient> { ingredient in
+            !ingredient.possibleCauses.isEmpty
+        }
+        let descriptor = FetchDescriptor<Ingredient>(predicate: predicate)
+        return (try? context.fetch(descriptor)) ?? []
     }
     
     // MARK: - Update
