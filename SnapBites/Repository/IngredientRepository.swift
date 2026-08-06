@@ -9,8 +9,8 @@ final class IngredientRepository {
     }
     
     // MARK: - Create
-    func create(name: String, hasChecked: Bool = false) -> Ingredient {
-        let ingredient = Ingredient(name: name, hasChecked: hasChecked)
+    func create(name: String, timeUpdated: Date = Date.now) -> Ingredient {
+        let ingredient = Ingredient(name: name, hasChecked: false, timeUpdated: timeUpdated)
         context.insert(ingredient)
         save()
         return ingredient

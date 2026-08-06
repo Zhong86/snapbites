@@ -29,7 +29,7 @@ final class Symtomp {
 }
 
 var symptoms: [Symtomp] = [
-    Symtomp(name: "kulit gatel",imageName: "images",lastChecked: Date.now),
+    Symtomp(name: "kulit gatel",imageName: "kulit gatel",lastChecked: Date.now),
     Symtomp(name:"demam" ,imageName: "demam",lastChecked:Date.now),
     Symtomp(name: "bersin", imageName: "bersin",lastChecked:Date.now),
     Symtomp(name:"batuk", imageName: "batuk", lastChecked:Date.now),
