@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Symtomp: Identifiable {
+final class Symtomp {
     var name: String
     var imageName: String
     var lastChecked: Date

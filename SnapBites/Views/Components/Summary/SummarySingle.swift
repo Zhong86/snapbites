@@ -23,14 +23,14 @@ struct SummarySingle: View {
                 VStack(alignment: .leading, spacing: 4) {
                     
                     HStack{
-                        Text(data.ingredientId)
+                        Text(data.ingredient?.name ?? "Unknown ingredient")
                             .font(.title)
                             .bold()
                             .lineLimit(1)
                         Spacer()
                     }
                     HStack{
-                        Text(data.symtompId)
+                        Text(data.symptom?.name ?? "Unknown symptom")
                             .padding(4)
                             .font(.caption)
                             .clipShape(RoundedRectangle(cornerRadius: 50))
@@ -77,13 +77,5 @@ struct SummarySingle: View {
 
 #Preview {
     NavigationStack {
-        let possibleCause = PossibleCauses(
-            id: "2",
-            ingredientId: "NASI PADANG",
-            symtompId: "batuk",
-            status: "unchecked",
-            lastUpdated: Date.now
-        )
-        SummarySingle(data: possibleCause)
     }
 }

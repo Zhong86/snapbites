@@ -8,15 +8,15 @@ import Foundation
 import SwiftData
 
 @Model
-final class PossibleCauses: Identifiable {
+final class PossibleCauses  {
     var ingredient: Ingredient?
     var symptom: Symtomp?
     var status: String // unchecked | cause | non_cause
     var lastUpdated: Date
 
     init(
-        ingredient: Ingredient,
-        symptom: Symtomp,
+        ingredient: Ingredient? = nil,
+        symptom: Symtomp? = nil,
         status: String = "unchecked",
         lastUpdated: Date = Date()
     ) {
