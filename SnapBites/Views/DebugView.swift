@@ -10,7 +10,7 @@ struct DebugView: View {
         List {
             Section("Ingredients") {
                 ForEach(ingredients) { i in
-                    Text("\(i.name) — checked: \(i.hasChecked)")
+                    Text("\(i.name) - checked: \(i.hasChecked.description)")
                 }
             }
             Section("Symptoms") {

@@ -7,7 +7,6 @@
 import Foundation
 import SwiftData
 
-<<<<<<< HEAD
 class SymptomCheckService {
     
     func newSymptom(symptom: Symtomp, modelContext: ModelContext) {
@@ -96,7 +95,6 @@ class SymptomCheckService {
         return ingredients
     }
 }
-=======
 func getPossibleCauses(symptom: Symtomp, modelContext: ModelContext) throws -> (Bool, [Ingredient]) {
    
     var ingredients = Array<Ingredient>()
@@ -160,4 +158,3 @@ func getPrevCauses(modelContext: ModelContext, ingredients: [Ingredient]) throws
     
     return ingredients
 }
->>>>>>> ec447a198887c9e619f6dbb0e1b85bbab5c59caf

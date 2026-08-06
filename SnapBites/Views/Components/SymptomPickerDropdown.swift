@@ -6,7 +6,7 @@ struct SymptomPickerDropdown: View {
     @State private var isExpanded: Bool = false
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             Button {
                 withAnimation(.easeInOut(duration: 0.2)) {
                     isExpanded.toggle()
@@ -14,20 +14,22 @@ struct SymptomPickerDropdown: View {
             } label: {
                 HStack {
                     Text(selectedSymptom?.name ?? "Select a symptom")
-                        .foregroundColor(selectedSymptom == nil ? .gray : .black)
+                        .foregroundStyle(selectedSymptom == nil ? Color.secondaryTextColor : .black)
                         .font(.system(size: 16, weight: .medium))
                     Spacer()
                     Image(systemName: "chevron.down")
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                        .foregroundColor(.black)
+                        .foregroundStyle(Color.primaryGreen)
                 }
-                .padding()
-                .background(Color(.systemBackground))
-                .cornerRadius(8)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 14)
+                .background(Color.cardSurface)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(.systemGray4), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.cardStroke, lineWidth: 1)
                 )
+                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 3)
             }
             .buttonStyle(.plain)
 
@@ -41,12 +43,14 @@ struct SymptomPickerDropdown: View {
                             }
                         } label: {
                             Text(symptom.name)
+                                .font(.system(size: 15, weight: .regular))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding()
-                                .foregroundColor(.black)
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 14)
+                                .foregroundStyle(.black)
                                 .background(
                                     selectedSymptom?.name == symptom.name
-                                        ? Color(.systemGray6)
+                                        ? Color.primaryGreen.opacity(0.08)
                                         : Color.clear
                                 )
                         }
@@ -54,15 +58,17 @@ struct SymptomPickerDropdown: View {
 
                         if symptom.name != symptoms.last?.name {
                             Divider()
+                                .padding(.leading, 18)
                         }
                     }
                 }
-                .background(Color(.systemBackground))
-                .cornerRadius(8)
+                .background(Color.cardSurface)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(.systemGray4), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.cardStroke, lineWidth: 1)
                 )
+                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 3)
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
@@ -72,4 +78,5 @@ struct SymptomPickerDropdown: View {
 #Preview {
     SymptomPickerDropdown(selectedSymptom: .constant(nil))
         .padding()
+        .background(Color.appBackground)
 }

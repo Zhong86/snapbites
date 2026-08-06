@@ -71,7 +71,9 @@ struct CreateJournalView: View {
             for name in ingredientNames {
                 let trimmed = name.trimmingCharacters(in: .whitespaces)
                 guard !trimmed.isEmpty else { continue }
-                let ingredient=repository.create(name: trimmed, timeUpdated: entryDate)
+                
+                // Memanggil fungsi tanpa menyimpan hasilnya ke variabel agar Swift tidak protes
+                repository.create(name: trimmed)
             }
 
         case .symptom:

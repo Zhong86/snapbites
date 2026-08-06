@@ -9,13 +9,8 @@ final class IngredientRepository {
     }
     
     // MARK: - Create
-<<<<<<< HEAD
-    func create(name: String, timeUpdated: Date = Date.now) -> Ingredient {
-        let ingredient = Ingredient(name: name, hasChecked: false, timeUpdated: timeUpdated)
-=======
     func create(name: String, hasChecked: Bool = false) -> Ingredient {
         let ingredient = Ingredient(name: name, hasChecked: hasChecked)
->>>>>>> ec447a198887c9e619f6dbb0e1b85bbab5c59caf
         context.insert(ingredient)
         save()
         return ingredient
@@ -25,7 +20,7 @@ final class IngredientRepository {
     func fetchAll(on date: Date, calendar: Calendar = .current) -> [Ingredient] {
         let start = calendar.startOfDay(for: date)
         guard let end = calendar.date(byAdding: .day, value: 1, to: start) else { return [] }
- 
+        
         let predicate = #Predicate<Ingredient> { ingredient in
             ingredient.timeUpdated >= start && ingredient.timeUpdated < end
         }
