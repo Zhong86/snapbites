@@ -13,6 +13,9 @@ final class IngredientRepository {
         let ingredient = Ingredient(name: name, hasChecked: false, timeUpdated: timeUpdated)
         context.insert(ingredient)
         save()
+        print("🟢 created:", ingredient.name, ingredient.timeUpdated, "id:", ingredient.id)
+        let all = (try? context.fetch(FetchDescriptor<Ingredient>())) ?? []
+        print("🟢 total ingredients in store right now:", all.count, all.map { ($0.name, $0.timeUpdated) })
         return ingredient
     }
     
