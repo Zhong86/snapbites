@@ -10,9 +10,22 @@
 		049CE7DD301069B0003C8DF0 /* SnapBites.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapBites.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0408FB423025548C000C9CF3 /* Exceptions for "SnapBites" folder in "SnapBites" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 049CE7DC301069B0003C8DF0 /* SnapBites */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		049CE7DF301069B0003C8DF0 /* SnapBites */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0408FB423025548C000C9CF3 /* Exceptions for "SnapBites" folder in "SnapBites" target */,
+			);
 			path = SnapBites;
 			sourceTree = "<group>";
 		};

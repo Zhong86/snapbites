@@ -8,7 +8,6 @@ import Foundation
 import SwiftData
 
 class SymptomCheckService {
-    
     func newSymptom(symptom: Symtomp, modelContext: ModelContext) -> (Bool, [Ingredient]) {
         var pc: (Bool, [Ingredient]) = (false, [])
         do {

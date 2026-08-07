@@ -8,17 +8,30 @@ import SwiftUI
 
 struct Pill: View {
     @State var text: String
-    var borderColor: Color = .black
-    
+    var borderColor: Color = .primaryGreen
+
     var body: some View {
         Text(text)
-            .padding(4)
-            .font(.caption)
-            .clipShape(RoundedRectangle(cornerRadius: 50))
-            .overlay(
-                RoundedRectangle(cornerRadius: 100)
-                    .stroke(borderColor, lineWidth: 1)
+            .font(.system(size: 12, weight: .medium))
+            .foregroundStyle(borderColor)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(borderColor.opacity(0.10))
             )
-            .shadow(radius: 5)
+            .overlay(
+                Capsule()
+                    .stroke(borderColor.opacity(0.4), lineWidth: 1)
+            )
     }
+}
+
+#Preview {
+    HStack {
+        Pill(text: "Peanuts", borderColor: .accentRed)
+        Pill(text: "Reviewed", borderColor: .primaryGreen)
+    }
+    .padding()
+    .background(Color.appBackground)
 }
