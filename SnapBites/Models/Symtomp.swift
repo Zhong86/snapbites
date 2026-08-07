@@ -42,5 +42,5 @@ var symptoms: [Symtomp] = [
     Symtomp(name: "diare", imageName: "diare", lastChecked: Date.now),
     Symtomp(name:"sakit perut", imageName: "sakit perut", lastChecked: Date.now),
     Symtomp(name: "sesak nafas", imageName: "sesak nafas", lastChecked: Date.now),
-    Symtomp(name:"bengkak",imageName:"bengka", lastChecked: Date.now),
+    Symtomp(name:"bengkak",imageName:"bengkak", lastChecked: Date.now),
 ]

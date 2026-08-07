@@ -23,7 +23,7 @@ struct ContentView: View {
     
     // Ingredient with an active cause link -> should show in Summary
     let peanut = ingredientRepo.create(name: "kacang")
-    let itchySkin = symptomRepo.create(name: "kulit gatel", imageName: "images")
+    let itchySkin = symptomRepo.create(name: "kulit gatel", imageName: "bengkak")
     let hives = symptomRepo.create(name: "biduran", imageName: "biduran")
     _ = causeRepo.create(ingredient: peanut, symptom: itchySkin, status: "cause")
     _ = causeRepo.create(ingredient: peanut, symptom: hives, status: "unchecked")
@@ -44,4 +44,8 @@ struct ContentView: View {
     
     return ContentView()
         .modelContainer(container)
+}
+
+#Preview {
+    Image("batuk2")
 }
