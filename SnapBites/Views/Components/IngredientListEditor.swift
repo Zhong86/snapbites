@@ -4,19 +4,22 @@ struct IngredientListEditor: View {
     @Binding var ingredientNames: [String]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             Text("Ingredients")
-                .font(.system(size: 14, weight: .bold))
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(Color.secondaryTextColor)
 
             ForEach(ingredientNames.indices, id: \.self) { index in
                 HStack(spacing: 8) {
                     TextField("Ingredient name", text: $ingredientNames[index])
-                        .padding()
-                        .background(Color(.systemBackground))
-                        .cornerRadius(6)
+                        .font(.system(size: 15))
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 12)
+                        .background(Color.appBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color(.systemGray4), lineWidth: 1)
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .stroke(Color.cardStroke, lineWidth: 1)
                         )
 
                     // Only show remove once there's more than one row
@@ -25,7 +28,7 @@ struct IngredientListEditor: View {
                             ingredientNames.remove(at: index)
                         } label: {
                             Image(systemName: "minus.circle.fill")
-                                .foregroundColor(.red)
+                                .foregroundStyle(Color.accentRed)
                         }
                     }
                 }
@@ -34,11 +37,12 @@ struct IngredientListEditor: View {
             Button {
                 ingredientNames.append("")
             } label: {
-                HStack(spacing: 4) {
+                HStack(spacing: 6) {
                     Image(systemName: "plus.circle.fill")
                     Text("Add ingredient")
                 }
-                .foregroundColor(.green)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(Color.primaryGreen)
             }
         }
     }
@@ -47,4 +51,5 @@ struct IngredientListEditor: View {
 #Preview {
     IngredientListEditor(ingredientNames: .constant(["Udang", ""]))
         .padding()
+        .background(Color.appBackground)
 }

@@ -19,23 +19,32 @@ struct LogView: View {
             VStack(spacing: 0) {
                 // --- TOP CALENDAR SECTION ---
                 HeaderCalendarView(selectedDate: $selectedDate)
-                
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
                 // --- TIMELINE SECTION ---
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 16) {
                         ForEach(LogTimeframe.allCases) { timeframe in
                             let sectionEntries = groupedEntries[timeframe] ?? []
                             if !sectionEntries.isEmpty {
                                 TimelineSectionView(timeframe: timeframe, entries: sectionEntries)
+                                    .background(Color.cardSurface)
+                                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 22, style: .continuous)
+                                            .stroke(Color.cardStroke, lineWidth: 1)
+                                    )
+                                    .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 4)
                             }
                         }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
                     // Leave room so content can scroll clear of the sticky button
-                    .padding(.bottom, 90)
+                    .padding(.bottom, 100)
                 }
             }
-            .background(Color.white)
-            
+            .background(Color.appBackground)
             StickyAddLogButton {
                 showModal.toggle()
             }

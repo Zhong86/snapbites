@@ -24,9 +24,6 @@ extension Color {
     static let cardStroke = Color.black.opacity(0.06)
 }
 
-/// Shared "floating card" look (white surface, large rounded corners,
-/// soft shadow, subtle stroke, generous padding) used across the
-/// Summary module so every card shares the same design language.
 struct SummaryCardStyle: ViewModifier {
     var cornerRadius: CGFloat = 22
     var padding: CGFloat = 18
@@ -45,13 +42,11 @@ struct SummaryCardStyle: ViewModifier {
 }
 
 extension View {
-    /// Applies the shared Summary card chrome.
+
     func summaryCard(cornerRadius: CGFloat = 22, padding: CGFloat = 18) -> some View {
         modifier(SummaryCardStyle(cornerRadius: cornerRadius, padding: padding))
     }
-
-    /// White circular ~44x44pt button chrome used by the custom
-    /// Summary toolbar (Calendar / Filter / Settings / Close).
+    
     func toolbarCircle() -> some View {
         self
             .frame(width: 44, height: 44)

@@ -24,44 +24,77 @@ struct CreateJournalView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // MARK: - Ingredient / Symptom toggle
-                    JournalTypePicker(selection: $entryType)
-                    
-                    // MARK: - Type-specific form
-                    switch entryType {
-                    case .ingredient:
-                        IngredientListEditor(ingredientNames: $ingredientNames)
-                    case .symptom:
-                        SymptomPickerDropdown(selectedSymptom: $selectedSymptom)
+            ZStack {
+                Color.appBackground.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        // MARK: - Ingredient / Symptom toggle
+                        JournalTypePicker(selection: $entryType)
+
+                        // MARK: - Type-specific form
+                        sectionCard {
+                            switch entryType {
+                            case .ingredient:
+                                IngredientListEditor(ingredientNames: $ingredientNames)
+                            case .symptom:
+                                SymptomPickerDropdown(selectedSymptom: $selectedSymptom)
+                            }
+                        }
+
+                        // MARK: - Unified date/time field (shared by both types)
+                        sectionCard {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Time")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(Color.secondaryTextColor)
+
+                                DatePicker(
+                                    "",
+                                    selection: $entryDate,
+                                    displayedComponents: [.date, .hourAndMinute]
+                                )
+                                .labelsHidden()
+                                .datePickerStyle(.compact)
+                                .tint(Color.primaryGreen)
+                            }
+                        }
                     }
-                    
-                    // MARK: - Unified date/time field (shared by both types)
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Time")
-                            .font(.system(size: 14, weight: .bold))
-                        
-                        DatePicker(
-                            "",
-                            selection: $entryDate,
-                            displayedComponents: [.date, .hourAndMinute]
-                        )
-                        .labelsHidden()
-                        .datePickerStyle(.compact)
-                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
+                    .padding(.bottom, 32)
                 }
-                .padding()
             }
             .navigationTitle("New Entry")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Cancel")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(Color.secondaryTextColor)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(Color.cardSurface)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(Color.cardStroke, lineWidth: 1))
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }
-                        .disabled(!isSaveEnabled)
+                    Button {
+                        save()
+                    } label: {
+                        Text("Save")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 8)
+                            .background(isSaveEnabled ? Color.primaryGreen : Color.primaryGreen.opacity(0.4))
+                            .clipShape(Capsule())
+                    }
+                    .disabled(!isSaveEnabled)
                 }
             }
             .alert("Cause Found", isPresented: $showCauseFoundAlert) {
@@ -71,20 +104,31 @@ struct CreateJournalView: View {
             }
         }
     }
-    
+
+    /// Shared rounded white card used to group each form section.
+    @ViewBuilder
+    private func sectionCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            content()
+        }
+        .padding(18)
+        .background(Color.cardSurface)
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(Color.cardStroke, lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 4)
+    }
+
     private func save() {
         switch entryType {
         case .ingredient:
-            Task {
-                let repository = IngredientRepository(context: modelContext)
-                for name in ingredientNames {
-                    let trimmed = name.trimmingCharacters(in: .whitespaces)
-                    guard !trimmed.isEmpty else { continue }
-                    _ = await repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
-                }
-                
-                dismiss()
-            }
+            let repository = IngredientRepository(context: modelContext)
+            for name in ingredientNames {
+                let trimmed = name.trimmingCharacters(in: .whitespaces)
+                guard !trimmed.isEmpty else { continue }
+                _ = repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
         case .symptom:
             guard let selectedSymptom else { return }
             let updatedSymptom: Symtomp = SymptomRepository(context: modelContext).updateDate(selectedSymptom, date: entryDate)

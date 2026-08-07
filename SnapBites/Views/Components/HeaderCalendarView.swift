@@ -27,9 +27,10 @@ struct HeaderCalendarView: View {
             HStack {
                 Button(action: { showDatePicker = true }) {
                     Image(systemName: "calendar")
-                        .foregroundColor(.black)
-                        .padding(10)
-                        .background(Color(UIColor.systemGray6))
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(.black)
+                        .frame(width: 40, height: 40)
+                        .background(Color.appBackground)
                         .clipShape(Circle())
                 }
                 .popover(isPresented: $showDatePicker) {
@@ -42,19 +43,20 @@ struct HeaderCalendarView: View {
                     .labelsHidden()
                     .padding()
                     .frame(minWidth: 320, minHeight: 360)
+                    .tint(Color.primaryGreen)
                 }
 
                 Spacer()
 
                 Text(monthTitle)
                     .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(.black)
 
                 Spacer()
 
                 Color.clear.frame(width: 40, height: 40) // Spacer to balance icon
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 10)
+            .padding(.horizontal, 4)
 
             // Week Days — real dates, tappable to change selectedDate
             HStack {
@@ -64,18 +66,23 @@ struct HeaderCalendarView: View {
                     Spacer()
 
                     Button {
-                        withAnimation(.easeInOut(duration: 0.15)) {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.75)) {
                             selectedDate = date
                         }
                     } label: {
-                        VStack(spacing: 4) {
+                        VStack(spacing: 6) {
                             Text(date.formatted(.dateTime.weekday(.abbreviated)).uppercased())
-                                .font(.system(size: 12, weight: isSelected ? .bold : .regular))
-                                .foregroundColor(isSelected ? .black : .gray)
+                                .font(.system(size: 11, weight: isSelected ? .semibold : .regular))
+                                .foregroundStyle(isSelected ? Color.primaryGreen : Color.secondaryTextColor)
 
                             Text(date.formatted(.dateTime.day()))
-                                .font(.system(size: 16, weight: isSelected ? .bold : .regular))
-                                .foregroundColor(isSelected ? .black : .gray)
+                                .font(.system(size: 15, weight: isSelected ? .semibold : .regular))
+                                .foregroundStyle(isSelected ? .white : .black)
+                                .frame(width: 32, height: 32)
+                                .background(
+                                    Circle()
+                                        .fill(isSelected ? Color.primaryGreen : Color.clear)
+                                )
                         }
                     }
                     .buttonStyle(.plain)
@@ -83,13 +90,20 @@ struct HeaderCalendarView: View {
                     Spacer()
                 }
             }
-            .padding(.bottom, 10)
-
-            Divider()
         }
+        .padding(18)
+        .background(Color.cardSurface)
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(Color.cardStroke, lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 4)
     }
 }
 
 #Preview {
     HeaderCalendarView(selectedDate: .constant(Date()))
+        .padding()
+        .background(Color.appBackground)
 }
