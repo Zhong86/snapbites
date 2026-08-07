@@ -12,7 +12,6 @@ struct SummaryView: View {
                 let repo = IngredientRepository(context: modelContext)
                     
                 ingredients = repo.fetchWithPossibleCauses()
-                print("repo ingredients:", ingredients.map { ($0.name, $0.possibleCauses.count) })
             }
     }
 }

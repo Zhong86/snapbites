@@ -1,15 +1,6 @@
 import SwiftUI
 import SwiftData
 
-let dummy = Ingredient(name: "kacang", hasChecked: false)
-let dummy2 = Symtomp(name: "biduran", imageName: "biduran")
-let dummy3 = PossibleCauses(
-    ingredient: dummy,
-    symptom: dummy2,
-    status: "cause",
-    lastUpdated: .now
-)
-
 struct ContentView: View {
     var body: some View {
         VStack {
@@ -37,7 +28,6 @@ struct ContentView: View {
     _ = causeRepo.create(ingredient: peanut, symptom: itchySkin, status: "cause")
     _ = causeRepo.create(ingredient: peanut, symptom: hives, status: "unchecked")
     
-    // Ingredient with a non_cause link -> still has a possibleCauses entry, still shows (option B: presence, not status)
     let shrimp = ingredientRepo.create(name: "udang")
     let rash = symptomRepo.create(name: "mata merah", imageName: "mata merah")
     _ = causeRepo.create(ingredient: shrimp, symptom: rash, status: "non_cause")

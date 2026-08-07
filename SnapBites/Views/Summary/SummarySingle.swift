@@ -34,6 +34,7 @@ struct SummarySingle: View {
                                     text: symptom.name,
                                     borderColor: cause.status == "cause" ? Color.accentRed : Color.primaryGreen
                                 )
+
                             }
                         }
                     }
