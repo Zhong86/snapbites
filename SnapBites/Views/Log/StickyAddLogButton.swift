@@ -1,3 +1,10 @@
+//
+//  StickyAddButton.swift
+//  SnapBites
+//
+//  Created by Mac on 07/08/26.
+//
+
 import SwiftUI
 
 struct StickyAddLogButton: View {
@@ -8,12 +15,15 @@ struct StickyAddLogButton: View {
             Image(systemName: "plus.circle.fill")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 32, height: 32)
-                .foregroundColor(.white)
-                .padding(14)
-                .background(Color.blue)
+                .frame(width: 36, height: 36)
+                .foregroundStyle(.white)
+                .padding(16)
+                .background(Color.primaryGreen)
                 .clipShape(Circle())
-                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                .overlay(
+                    Circle().stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+                .shadow(color: Color.primaryGreen.opacity(0.30), radius: 12, x: 0, y: 6)
         }
     }
 }
@@ -21,5 +31,5 @@ struct StickyAddLogButton: View {
 #Preview {
     StickyAddLogButton(action: {})
         .padding()
-        .background(Color(.systemGray6))
+        .background(Color.appBackground)
 }
