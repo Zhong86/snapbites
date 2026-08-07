@@ -14,16 +14,16 @@ enum Tab: String, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .summary: return "Home"
-        case .log: return "Logs"
+        case .summary: return "Overview"
+        case .log: return "Journal"
         }
     }
     
     // SF Symbols icon names
     var image: String {
         switch self {
-        case .summary: return "globe"
-        case .log: return "globe"
+        case .summary: return "syringe"
+        case .log: return "books.vertical"
         }
     }
     
