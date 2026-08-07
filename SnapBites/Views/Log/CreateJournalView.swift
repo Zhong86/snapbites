@@ -128,15 +128,9 @@ struct CreateJournalView: View {
             for name in ingredientNames {
                 let trimmed = name.trimmingCharacters(in: .whitespaces)
                 guard !trimmed.isEmpty else { continue }
-<<<<<<< Updated upstream
                 // Existing ingredient of the same name just gets its timeUpdated bumped
                 // instead of creating a duplicate row.
                 _ = repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
-=======
-
-                // Memanggil fungsi tanpa menyimpan hasilnya ke variabel agar Swift tidak protes
-                repository.create(name: trimmed)
->>>>>>> Stashed changes
             }
             dismiss()
 
