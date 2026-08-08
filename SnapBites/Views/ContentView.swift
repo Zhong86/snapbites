@@ -21,7 +21,7 @@ struct ContentView: View {
     let symptomRepo = SymptomRepository(context: context)
     let causeRepo = PossibleCausesRepository(context: context)
     
-    // ingredientt with an active cause link -> should show in Summary
+    // Ingredient with an active cause link -> should show in Summary
     let peanut = ingredientRepo.create(name: "kacang")
     let itchySkin = symptomRepo.create(name: "kulit gatel", imageName: "images")
     let hives = symptomRepo.create(name: "biduran", imageName: "biduran")

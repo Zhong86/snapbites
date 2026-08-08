@@ -4,15 +4,15 @@ import SwiftData
 struct CreateJournalView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var entryType: JournalEntryType = .ingredient
     @State private var ingredientNames: [String] = [""]
     @State private var selectedSymptom: Symtomp?
     @State private var entryDate: Date = Date()
-
+    
     @State private var showCauseFoundAlert = false
     @State private var foundCauseNames: [String] = []
-
+    
     private var isSaveEnabled: Bool {
         switch entryType {
         case .ingredient:
@@ -21,17 +21,17 @@ struct CreateJournalView: View {
             return selectedSymptom != nil
         }
     }
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.appBackground.ignoresSafeArea()
-
+                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         // MARK: - Ingredient / Symptom toggle
                         JournalTypePicker(selection: $entryType)
-
+                        
                         // MARK: - Type-specific form
                         sectionCard {
                             switch entryType {
@@ -41,14 +41,14 @@ struct CreateJournalView: View {
                                 SymptomPickerDropdown(selectedSymptom: $selectedSymptom)
                             }
                         }
-
+                        
                         // MARK: - Unified date/time field (shared by both types)
                         sectionCard {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Time")
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundStyle(Color.secondaryTextColor)
-
+                                
                                 DatePicker(
                                     "",
                                     selection: $entryDate,
@@ -104,7 +104,7 @@ struct CreateJournalView: View {
             }
         }
     }
-
+    
     /// Shared rounded white card used to group each form section.
     @ViewBuilder
     private func sectionCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
@@ -120,7 +120,7 @@ struct CreateJournalView: View {
         )
         .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 4)
     }
-
+    
     private func save() {
         switch entryType {
         case .ingredient:
@@ -132,27 +132,17 @@ struct CreateJournalView: View {
                 // instead of creating a duplicate row.
                 _ = repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
             }
-            dismiss()
-
         case .symptom:
             guard let selectedSymptom else { return }
             let updatedSymptom: Symtomp = SymptomRepository(context: modelContext).updateDate(selectedSymptom, date: entryDate)
             let (causeFound, causes) = SymptomCheckService().newSymptom(symptom: updatedSymptom, modelContext: modelContext)
-
+            
             if causeFound {
-                // A cause was already known — surface it via alert instead of
-                // creating new PossibleCauses, and dismiss once the user acknowledges.
                 foundCauseNames = causes.map(\.name)
                 showCauseFoundAlert = true
             } else {
-                // PossibleCauses were just created (inside newSymptom) for each
-                // candidate ingredient — safe to close the sheet now.
                 dismiss()
             }
         }
     }
-}
-
-#Preview {
-    CreateJournalView()
 }
