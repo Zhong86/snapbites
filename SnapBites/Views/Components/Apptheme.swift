@@ -1,6 +1,6 @@
 
 //
-//  Apptheme.swift
+//  AppTheme.swift
 //  SnapBites
 //
 //  Created by Mac on 07/08/26.

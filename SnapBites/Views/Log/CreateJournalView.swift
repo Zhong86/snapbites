@@ -128,8 +128,6 @@ struct CreateJournalView: View {
             for name in ingredientNames {
                 let trimmed = name.trimmingCharacters(in: .whitespaces)
                 guard !trimmed.isEmpty else { continue }
-                // Existing ingredient of the same name just gets its timeUpdated bumped
-                // instead of creating a duplicate row.
                 _ = repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
             }
         case .symptom:
@@ -146,3 +144,4 @@ struct CreateJournalView: View {
         }
     }
 }
+
