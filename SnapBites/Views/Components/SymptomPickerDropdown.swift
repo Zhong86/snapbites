@@ -8,7 +8,7 @@ struct SymptomPickerDropdown: View {
     var body: some View {
         VStack(spacing: 8) {
             Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                     isExpanded.toggle()
                 }
             } label: {
@@ -37,7 +37,7 @@ struct SymptomPickerDropdown: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(symptoms, id: \.name) { symptom in
                         Button {
-                            withAnimation(.easeInOut) {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                                 selectedSymptom = symptom
                                 isExpanded = false
                             }
@@ -69,7 +69,12 @@ struct SymptomPickerDropdown: View {
                         .stroke(Color.cardStroke, lineWidth: 1)
                 )
                 .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 3)
-                .transition(.opacity.combined(with: .move(edge: .top)))
+                .transition(
+                    .asymmetric(
+                        insertion: .scale(scale: 0.94, anchor: .top).combined(with: .opacity),
+                        removal: .opacity
+                    )
+                )
             }
         }
     }

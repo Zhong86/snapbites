@@ -69,32 +69,11 @@ struct CreateJournalView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("Cancel")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(Color.secondaryTextColor)
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 8)
-                            .background(Color.cardSurface)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.cardStroke, lineWidth: 1))
-                    }
+                    Button("Cancel") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button {
-                        save()
-                    } label: {
-                        Text("Save")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 8)
-                            .background(isSaveEnabled ? Color.primaryGreen : Color.primaryGreen.opacity(0.4))
-                            .clipShape(Capsule())
-                    }
-                    .disabled(!isSaveEnabled)
+                    Button("Save") { save() }
+                        .disabled(!isSaveEnabled)
                 }
             }
             .alert("Cause Found", isPresented: $showCauseFoundAlert) {

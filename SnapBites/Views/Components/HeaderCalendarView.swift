@@ -41,9 +41,10 @@ struct HeaderCalendarView: View {
                     )
                     .datePickerStyle(.graphical)
                     .labelsHidden()
-                    .padding()
-                    .frame(minWidth: 320, minHeight: 360)
+                    .frame(width: 320)
+                    .fixedSize(horizontal: false, vertical: true)
                     .tint(Color.primaryGreen)
+                    .presentationCompactAdaptation(.popover)
                 }
 
                 Spacer()
@@ -57,6 +58,9 @@ struct HeaderCalendarView: View {
                 Color.clear.frame(width: 40, height: 40) // Spacer to balance icon
             }
             .padding(.horizontal, 4)
+            .onChange(of: selectedDate) {
+                showDatePicker = false
+            }
 
             // Week Days — real dates, tappable to change selectedDate
             HStack {

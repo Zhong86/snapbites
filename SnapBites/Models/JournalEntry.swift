@@ -1,3 +1,10 @@
+//
+//  JournalEntry.swift
+//  SnapBites
+//
+//  Created by Mac on 04/08/26.
+//
+
 import Foundation
 
 enum LogTimeframe: String, CaseIterable, Identifiable {
