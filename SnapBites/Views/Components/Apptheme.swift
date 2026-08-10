@@ -1,10 +1,10 @@
-
 //
 //  Apptheme.swift
 //  SnapBites
 //
 //  Created by Mac on 07/08/26.
 //
+
 import SwiftUI
 
 extension Color {

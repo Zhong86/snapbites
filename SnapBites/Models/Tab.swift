@@ -4,11 +4,12 @@
 //
 //  Created by Mac on 04/08/27.
 //
+
 import SwiftUI
 
 enum Tab: String, CaseIterable, Identifiable {
-    case summary = "Summary"
-    case log = "Log"
+    case summary = "Overview"
+    case log = "Journal"
     
     var id: String { rawValue }
     
