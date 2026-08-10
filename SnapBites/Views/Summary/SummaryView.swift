@@ -14,6 +14,8 @@ struct SummaryView: View {
                 ingredients = repo.fetchWithPossibleCauses()
             }
     }
+    
+    
 }
 
 

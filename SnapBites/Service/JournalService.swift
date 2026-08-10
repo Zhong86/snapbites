@@ -21,6 +21,7 @@ final class JournalService {
     
     func getJournal(date: Date, calendar: Calendar = .current) -> [JournalEntry] {
         let ingredients = ingredientRepository.fetchAll(on: date, calendar: calendar)
+        print("ingr \(ingredients)")
         let symptoms = symptomRepository.fetchAll(on: date, calendar: calendar)
  
         let ingredientEntries = ingredients.map { ingredient in

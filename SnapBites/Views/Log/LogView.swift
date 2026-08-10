@@ -9,11 +9,11 @@ struct LogView: View {
     @State private var entries: [JournalEntry] = []
     @State private var showModal = false
     @State private var selectedDate = Date()
-
+    
     private var groupedEntries: [LogTimeframe: [JournalEntry]] {
         Dictionary(grouping: entries, by: \.timeframe)
     }
-
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(spacing: 0) {
@@ -21,7 +21,6 @@ struct LogView: View {
                 HeaderCalendarView(selectedDate: $selectedDate)
                     .padding(.horizontal, 20)
                     .padding(.top, 12)
-
                 // --- TIMELINE SECTION ---
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
@@ -46,25 +45,26 @@ struct LogView: View {
                 }
             }
             .background(Color.appBackground)
-
             StickyAddLogButton {
                 showModal.toggle()
             }
             .padding(.trailing, 20)
         }
-        .sheet(isPresented: $showModal) {
+        .sheet(isPresented: $showModal, onDismiss: loadEntries) {
             CreateJournalView()
         }
-        .task {
-            let ingredientRepo = IngredientRepository(context: modelContext)
-            let symptomRepo = SymptomRepository(context: modelContext)
-
-            let service = JournalService(
-                ingredientRepository: ingredientRepo,
-                symptomRepository: symptomRepo
-            )
-            entries = service.getJournal(date: selectedDate)
+        .task(id: selectedDate) {
+            loadEntries()
         }
+        .onChange(of: selectedDate) { loadEntries() }
+    }
+    
+    private func loadEntries() {
+        let ingredientRepo = IngredientRepository(context: modelContext)
+        let symptomRepo = SymptomRepository(context: modelContext)
+        let service = JournalService(ingredientRepository: ingredientRepo, symptomRepository: symptomRepo)
+        entries = service.getJournal(date: selectedDate)
+        print(entries)
     }
 }
 
