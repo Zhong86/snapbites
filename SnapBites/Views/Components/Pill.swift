@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct Pill: View {
-    @State var text: String
+    let text: String
     var borderColor: Color = .primaryGreen
 
     var body: some View {

@@ -24,7 +24,7 @@ struct SummarySingle: View {
                     $0.status != "non_cause"
                 }
 
-                HStack(spacing: 6) {
+                FlowLayout(spacing: 6) {
                     if activeCauses.isEmpty && !ingredient.possibleCauses.isEmpty {
                         SafePill()
                     } else {
