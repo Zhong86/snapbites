@@ -73,7 +73,7 @@ struct SummaryListView: View {
 
     private var summaryToolbar: some View {
         HStack {
-            Text("Summary")
+            Text("Overview")
                 .font(.system(size: 32, weight: .bold, design: .rounded))
                 .foregroundStyle(.black)
 

@@ -111,6 +111,7 @@ struct CreateJournalView: View {
                 // instead of creating a duplicate row.
                 _ = repository.createOrUpdate(name: trimmed, timeUpdated: entryDate)
             }
+            dismiss()
         case .symptom:
             guard let selectedSymptom else { return }
             let updatedSymptom: Symtomp = SymptomRepository(context: modelContext).updateDate(selectedSymptom, date: entryDate)
