@@ -27,7 +27,7 @@ struct LogView: View {
                         ForEach(LogTimeframe.allCases) { timeframe in
                             let sectionEntries = groupedEntries[timeframe] ?? []
                             if !sectionEntries.isEmpty {
-                                TimelineSectionView(timeframe: timeframe, entries: sectionEntries)
+                                TimelineSectionView(timeframe: timeframe, entries: sectionEntries, onDelete: deleteEntry)
                                     .background(Color.cardSurface)
                                     .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
                                     .overlay(
@@ -60,11 +60,18 @@ struct LogView: View {
     }
     
     private func loadEntries() {
+        entries = makeJournalService().getJournal(date: selectedDate)
+    }
+
+    private func deleteEntry(_ entry: JournalEntry) {
+        makeJournalService().delete(entry)
+        loadEntries()
+    }
+
+    private func makeJournalService() -> JournalService {
         let ingredientRepo = IngredientRepository(context: modelContext)
         let symptomRepo = SymptomRepository(context: modelContext)
-        let service = JournalService(ingredientRepository: ingredientRepo, symptomRepository: symptomRepo)
-        entries = service.getJournal(date: selectedDate)
-        print(entries)
+        return JournalService(ingredientRepository: ingredientRepo, symptomRepository: symptomRepo)
     }
 }
 

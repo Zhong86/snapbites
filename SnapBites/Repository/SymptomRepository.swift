@@ -63,6 +63,11 @@ final class SymptomRepository {
         context.delete(symptom)
         save()
     }
+
+    func delete(id: PersistentIdentifier) {
+        guard let symptom = context.model(for: id) as? Symtomp else { return }
+        delete(symptom)
+    }
     
     // MARK: - Helper
     private func save() {

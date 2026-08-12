@@ -26,6 +26,7 @@ final class JournalService {
  
         let ingredientEntries = ingredients.map { ingredient in
             JournalEntry(
+                modelID: ingredient.persistentModelID,
                 time: ingredient.timeUpdated.formatted(date: .omitted, time: .shortened),
                 title: "Food",
                 subtitle: ingredient.name,
@@ -33,9 +34,10 @@ final class JournalService {
                 hour: calendar.component(.hour, from: ingredient.timeUpdated)
             )
         }
- 
+
         let symptomEntries = symptoms.map { symptom in
             JournalEntry(
+                modelID: symptom.persistentModelID,
                 time: symptom.lastChecked.formatted(date: .omitted, time: .shortened),
                 title: symptom.name,
                 subtitle: "",
@@ -43,7 +45,16 @@ final class JournalService {
                 hour: calendar.component(.hour, from: symptom.lastChecked)
             )
         }
- 
+
         return (ingredientEntries + symptomEntries).sorted { $0.hour < $1.hour }
+    }
+
+    func delete(_ entry: JournalEntry) {
+        guard let modelID = entry.modelID else { return }
+        if entry.isSymptom {
+            symptomRepository.delete(id: modelID)
+        } else {
+            ingredientRepository.delete(id: modelID)
+        }
     }
 }

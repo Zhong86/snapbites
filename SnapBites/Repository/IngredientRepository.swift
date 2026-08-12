@@ -83,6 +83,11 @@ final class IngredientRepository {
         context.delete(ingredient)
         save()
     }
+
+    func delete(id: PersistentIdentifier) {
+        guard let ingredient = context.model(for: id) as? Ingredient else { return }
+        delete(ingredient)
+    }
     
     // MARK: - Helper
     private func save() {

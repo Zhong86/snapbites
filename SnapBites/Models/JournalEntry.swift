@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 enum LogTimeframe: String, CaseIterable, Identifiable {
     case morning = "Morning"
@@ -25,6 +26,7 @@ enum LogTimeframe: String, CaseIterable, Identifiable {
 
 struct JournalEntry: Identifiable {
     let id = UUID()
+    let modelID: PersistentIdentifier?
     let time: String
     let title: String
     let subtitle: String

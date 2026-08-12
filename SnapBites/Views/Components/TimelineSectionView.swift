@@ -3,6 +3,7 @@ import SwiftUI
 struct TimelineSectionView: View {
     let timeframe: LogTimeframe
     let entries: [JournalEntry]
+    var onDelete: (JournalEntry) -> Void = { _ in }
 
     @State private var isExpanded: Bool = true
 
@@ -32,7 +33,7 @@ struct TimelineSectionView: View {
 
             if isExpanded {
                 ForEach(entries) { entry in
-                    TimelineRowView(entry: entry)
+                    TimelineRowView(entry: entry, onDelete: { onDelete(entry) })
                 }
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
@@ -44,7 +45,7 @@ struct TimelineSectionView: View {
     TimelineSectionView(
         timeframe: .morning,
         entries: [
-            JournalEntry(time: "08:53", title: "Breakfast", subtitle: "Scrambled Egg", isSymptom: false, hour: 8)
+            JournalEntry(modelID: nil, time: "08:53", title: "Breakfast", subtitle: "Scrambled Egg", isSymptom: false, hour: 8)
         ]
     )
 }
